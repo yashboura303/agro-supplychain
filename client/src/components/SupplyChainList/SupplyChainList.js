@@ -12,19 +12,22 @@ export default function SupplyChainList(props) {
     }, []);
     return (
         <div>
-            <h2 className="text-center">Supply Chain List</h2>
-            <ul className="my-4">
+            <h2 className="text-center mt-2">Supply Chain List</h2>
+            <ol className="my-4">
                 {supplyChains.map(supplyChain => (
                     <li key={supplyChain.batchNo}>
-                        <Link
-                            className="nav-link"
-                            to={`supplychain/${supplyChain.batchNo}`}
-                        >
-                            {supplyChain.batchNo}
-                        </Link>
+                        <p>
+                            {/* <span>Batch No -</span> */}
+                            <Link
+                                className="nav-link d-inline"
+                                to={`supplychain/${supplyChain.batchNo}`}
+                            >
+                                {supplyChain.batchNo}
+                            </Link>
+                        </p>
                     </li>
                 ))}
-            </ul>
+            </ol>
         </div>
     );
 }

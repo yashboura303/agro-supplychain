@@ -7,6 +7,7 @@ import Web3 from 'web3';
 import axios from 'axios';
 
 import Home from './components/Home/home';
+import MainNavbar from './components/Navbar/MainNavbar';
 import SupplyChain from './components/SupplyChain/Supplychain';
 import SupplyChainList from './components/SupplyChainList/SupplyChainList';
 
@@ -180,12 +181,20 @@ class App extends Component {
         let content;
         if (this.state.loading) {
             content = (
-                <p id="loader" className="text-center">
-                    Loading..
-                </p>
+                <BrowserRouter>
+                    <MainNavbar />
+                    <p id="loader" className="text-center">
+                        Loading..
+                    </p>
+                </BrowserRouter>
             );
         } else {
-            content = <BrowserRouter>{this.routing(this.props)}</BrowserRouter>;
+            content = (
+                <BrowserRouter>
+                    <MainNavbar />
+                    {this.routing(this.props)}
+                </BrowserRouter>
+            );
         }
         return <div>{content}</div>;
     }
