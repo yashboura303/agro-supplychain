@@ -8,7 +8,7 @@ export default function MainNavbar() {
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                 <Navbar.Brand as={Link} to="/">
                     <img src={supplychainIcon} alt="icon" />
-                    Agro-Chain
+                    Agrow-Chain
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">

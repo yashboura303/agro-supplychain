@@ -5,11 +5,9 @@ import Web3 from 'web3';
 /*import axios from 'axios';*/
 
 class ChainRegisterForm extends Component {
-    
     constructor(props) {
         super(props);
         this.state = {
-            
             formData: {
                 registrationNo: '',
                 farmerName: '',
@@ -21,7 +19,6 @@ class ChainRegisterForm extends Component {
         };
     }
 
-    
     handlechange(event) {
         let fieldName = event.target.name;
         let fieldVal = event.target.value;
@@ -40,22 +37,23 @@ class ChainRegisterForm extends Component {
             this.state.formData.wholesalerName,
             this.state.formData.retailerName
         );
-        
     };
-
-
-    
-        
-   
 
     render() {
         return (
-            <Container>
+            <Container className="mx-auto">
                 <h2 className="text-center my-4">Register Supply Chain</h2>
-                <Form onSubmit={this.submitForm.bind(this)}>
+                <Form
+                    onSubmit={this.submitForm.bind(this)}
+                    className="mx-auto mt-3"
+                >
                     <Form.Group>
                         <Form.Row>
-                            <Form.Label column lg={2}>
+                            <Form.Label
+                                className="font-weight-bold"
+                                column
+                                lg={2}
+                            >
                                 Registration No
                             </Form.Label>
                             <Col>
@@ -65,12 +63,17 @@ class ChainRegisterForm extends Component {
                                     value={this.state.registrationNo}
                                     name="registrationNo"
                                     onChange={this.handlechange.bind(this)}
+                                    // className="w-50"
                                 />
                             </Col>
                         </Form.Row>
                         <br />
                         <Form.Row>
-                            <Form.Label column lg={2}>
+                            <Form.Label
+                                className="font-weight-bold"
+                                column
+                                lg={2}
+                            >
                                 Farmer Name
                             </Form.Label>
                             <Col>
@@ -80,12 +83,17 @@ class ChainRegisterForm extends Component {
                                     value={this.state.farmerName}
                                     name="farmerName"
                                     onChange={this.handlechange.bind(this)}
+                                    // className="w-50"
                                 />
                             </Col>
                         </Form.Row>
                         <br />
                         <Form.Row>
-                            <Form.Label column lg={2}>
+                            <Form.Label
+                                className="font-weight-bold"
+                                column
+                                lg={2}
+                            >
                                 Manufacturer Name
                             </Form.Label>
                             <Col>
@@ -95,12 +103,17 @@ class ChainRegisterForm extends Component {
                                     value={this.state.manufacturerName}
                                     name="manufacturerName"
                                     onChange={this.handlechange.bind(this)}
+                                    // className="w-50"
                                 />
                             </Col>
                         </Form.Row>
                         <br />
                         <Form.Row>
-                            <Form.Label column lg={2}>
+                            <Form.Label
+                                className="font-weight-bold"
+                                column
+                                lg={2}
+                            >
                                 Distributer Name
                             </Form.Label>
                             <Col>
@@ -110,12 +123,17 @@ class ChainRegisterForm extends Component {
                                     value={this.state.distributorName}
                                     name="distributorName"
                                     onChange={this.handlechange.bind(this)}
+                                    // className="w-50"
                                 />
                             </Col>
                         </Form.Row>
                         <br />
                         <Form.Row>
-                            <Form.Label column lg={2}>
+                            <Form.Label
+                                className="font-weight-bold"
+                                column
+                                lg={2}
+                            >
                                 Wholesaler Name
                             </Form.Label>
                             <Col>
@@ -125,12 +143,17 @@ class ChainRegisterForm extends Component {
                                     value={this.state.wholesalerName}
                                     name="wholesalerName"
                                     onChange={this.handlechange.bind(this)}
+                                    // className="w-50"
                                 />
                             </Col>
                         </Form.Row>
                         <br />
                         <Form.Row>
-                            <Form.Label column lg={2}>
+                            <Form.Label
+                                className="font-weight-bold"
+                                column
+                                lg={2}
+                            >
                                 Retailer Name
                             </Form.Label>
                             <Col>
@@ -140,6 +163,7 @@ class ChainRegisterForm extends Component {
                                     value={this.state.retailerName}
                                     name="retailerName"
                                     onChange={this.handlechange.bind(this)}
+                                    // className="w-50"
                                 />
                             </Col>
                         </Form.Row>
