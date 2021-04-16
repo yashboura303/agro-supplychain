@@ -226,7 +226,7 @@ contract AgrowChainStorage is AgrowChainStorageOwnable {
         
         batchBasicDetails[batchNo] = basicDetailsData;
         
-        nextAction[batchNo] = 'FARM_INSPECTION';   
+        nextAction[batchNo] = 'FARMER';   
         
         
         emit sBasicDetails(batchNo);

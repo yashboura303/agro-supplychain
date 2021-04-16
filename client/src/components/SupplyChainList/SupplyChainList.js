@@ -17,7 +17,6 @@ export default function SupplyChainList(props) {
                 {supplyChains.map(supplyChain => (
                     <li key={supplyChain.batchNo}>
                         <p>
-                            {/* <span>Batch No -</span> */}
                             <Link
                                 className="nav-link d-inline text-dark font-weight-bold"
                                 to={`supplychain/${supplyChain.batchNo}`}

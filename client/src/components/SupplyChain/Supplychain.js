@@ -54,14 +54,6 @@ export default function Supplychain(props) {
                     <p>
                         {' '}
                         <span className="font-weight-bold">
-                            Wholesaler Name :
-                        </span>{' '}
-                        {props.details.wholesalerName}
-                    </p>
-                    <hr />
-                    <p>
-                        {' '}
-                        <span className="font-weight-bold">
                             Retailer Name :
                         </span>{' '}
                         {props.details.retailerName}

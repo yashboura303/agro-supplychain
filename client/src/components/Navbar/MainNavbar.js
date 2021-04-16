@@ -16,8 +16,8 @@ export default function MainNavbar() {
                         <Nav.Link as={Link} to="/supplychains">
                             View supply-chains
                         </Nav.Link>
-                        <Nav.Link as={Link} to="/addSupplyChain">
-                            Create supply-chain
+                        <Nav.Link as={Link} to="/manageSupplyChain">
+                            Manage supply-chains
                         </Nav.Link>
                     </Nav>
                 </Navbar.Collapse>

@@ -13,7 +13,6 @@ class ChainRegisterForm extends Component {
                 farmerName: '',
                 manufacturerName: '',
                 distributorName: '',
-                wholesalerName: '',
                 retailerName: '',
             },
         };
@@ -122,26 +121,6 @@ class ChainRegisterForm extends Component {
                                     placeholder="Distributer Name"
                                     value={this.state.distributorName}
                                     name="distributorName"
-                                    onChange={this.handlechange.bind(this)}
-                                    // className="w-50"
-                                />
-                            </Col>
-                        </Form.Row>
-                        <br />
-                        <Form.Row>
-                            <Form.Label
-                                className="font-weight-bold"
-                                column
-                                lg={2}
-                            >
-                                Wholesaler Name
-                            </Form.Label>
-                            <Col>
-                                <Form.Control
-                                    type="text"
-                                    placeholder="Wholesaler Name"
-                                    value={this.state.wholesalerName}
-                                    name="wholesalerName"
                                     onChange={this.handlechange.bind(this)}
                                     // className="w-50"
                                 />

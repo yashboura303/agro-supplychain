@@ -10,6 +10,8 @@ import Home from './components/Home/home';
 import MainNavbar from './components/Navbar/MainNavbar';
 import SupplyChain from './components/SupplyChain/Supplychain';
 import SupplyChainList from './components/SupplyChainList/SupplyChainList';
+import ManageSupplyChain from './components/ManageSupplyChains';
+import EditSupplyChain from './components/EditSupplyChains';
 
 class App extends Component {
     constructor(props) {
@@ -23,7 +25,6 @@ class App extends Component {
             farmerName: '',
             manufacturerName: '',
             distributorName: '',
-            wholesalerName: '',
             retailerName: '',
             details: {},
         };
@@ -129,8 +130,6 @@ class App extends Component {
                     receipt.events.gBasicDetails.returnValues.manufacturerName;
                 const distributorName =
                     receipt.events.gBasicDetails.returnValues.distributorName;
-                const wholesalerName =
-                    receipt.events.gBasicDetails.returnValues.wholesalerName;
                 const retailerName =
                     receipt.events.gBasicDetails.returnValues.retailerName;
                 this.setState({
@@ -138,7 +137,6 @@ class App extends Component {
                     farmerName: farmerName,
                     manufacturerName: manufacturerName,
                     distributorName: distributorName,
-                    wholesalerName: wholesalerName,
                     retailerName: retailerName,
                 });
                 const details = {
@@ -146,7 +144,6 @@ class App extends Component {
                     farmerName: farmerName,
                     manufacturerName: manufacturerName,
                     distributorName: distributorName,
-                    wholesalerName: wholesalerName,
                     retailerName: retailerName,
                 };
                 this.setState({ details });
@@ -171,7 +168,12 @@ class App extends Component {
                         setSupplyChainDetails={this.setSupplyChainDetails}
                     />
                 </Route>
-
+                <Route path="/manageSupplyChain" exact>
+                    <ManageSupplyChain />
+                </Route>
+                <Route path="/editSupplyChain" exact>
+                    <EditSupplyChain />
+                </Route>
                 <Redirect to="/"></Redirect>
             </Switch>
         );
