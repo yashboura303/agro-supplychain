@@ -33,7 +33,6 @@ class ChainRegisterForm extends Component {
             this.state.formData.farmerName,
             this.state.formData.manufacturerName,
             this.state.formData.distributorName,
-            this.state.formData.wholesalerName,
             this.state.formData.retailerName
         );
     };

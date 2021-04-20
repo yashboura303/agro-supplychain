@@ -6,6 +6,7 @@ export default function Supplychain(props) {
     // const [details, setDetails] = useState();
     const getDetails = () => {
         props.getSupplyChainDetails(batchNo);
+        console.log(props.getNextAction(batchNo));
     };
     // useEffect(() => {
     //     getDetails();
@@ -21,6 +22,7 @@ export default function Supplychain(props) {
                 variant="success"
                 onClick={() => {
                     props.getSupplyChainDetails(batchNo);
+                    console.log(props.getNextAction(batchNo));
                 }}
             >
                 Click to view details

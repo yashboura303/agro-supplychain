@@ -81,8 +81,7 @@ class App extends Component {
         registrationNo,
         farmerName,
         manufacturerName,
-        distributorName,
-        wholesalerName,
+        distributorName,     
         retailerName
     ) => {
         this.setState({ loading: true });
@@ -92,7 +91,6 @@ class App extends Component {
                 farmerName,
                 manufacturerName,
                 distributorName,
-                wholesalerName,
                 retailerName
             )
             .send({
@@ -161,6 +159,7 @@ class App extends Component {
                     <SupplyChain
                         details={this.state.details}
                         getSupplyChainDetails={this.getSupplyChainDetails}
+                        getNextAction={this.getNextAction}
                     />
                 </Route>
                 <Route path="/addSupplyChain" exact>
@@ -177,6 +176,41 @@ class App extends Component {
                 <Redirect to="/"></Redirect>
             </Switch>
         );
+    };
+
+    getNextAction = batchNo => {
+        this.setState({ loading: true });
+        this.state.agrowChainStorage.methods
+            .getNextAction(batchNo)
+            .send({ from: this.state.account })
+            .on('receipt', receipt => {
+                this.setState({ loading: false });
+                console.log(receipt)
+                console.log(receipt.events.nextaction.returnValues.tmpData)
+            });
+    };    
+    
+    
+    setFarmerData = (batchNo,farmerID,farmerName,farmLocation,cropType,quantity) => {
+        this.setState({ loading: true });
+        this.state.agrowChainStorage.methods
+            .setFarmerData(batchNo,farmerID,farmerName,farmLocation,cropType,quantity)
+            .send({ from: this.state.account })
+            .on('receipt', receipt => {
+                this.setState({ loading: false });
+                console.log(receipt)
+            });
+    };
+
+    getFarmerData = (batchNo) => {
+        this.setState({ loading: true });
+        this.state.agrowChainStorage.methods
+            .getFarmerData(batchNo)
+            .send({ from: this.state.account })
+            .on('receipt', receipt => {
+                this.setState({ loading: false });
+                console.log(receipt)
+            });
     };
 
     render() {
