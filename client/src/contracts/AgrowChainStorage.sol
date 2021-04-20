@@ -16,7 +16,10 @@ contract AgrowChainStorage is AgrowChainStorageOwnable {
     event sBasicDetails(address batchNo);
     event gBasicDetails(string registrationNo,string farmerName,string manufacturerName,string distributorName,string retailerName);
     event nextaction(string tmpData);
-    event gfarmerdata(string farmerID,string farmerName,string farmLocation,string cropType, string quantity);
+    event farmerdata(string farmerID,string farmerName,string farmLocation,string cropType, string quantity);
+    event manufacturerdata(string manufacturerID, string cropType,string quantity);
+    event distributordata(string distributorID,string cropType,string quantity);
+    event retailerdata(string retailerID, string cropType, string quantity);
     /* Modifiers */
     
     modifier onlyAuthCaller(){
@@ -263,7 +266,7 @@ contract AgrowChainStorage is AgrowChainStorageOwnable {
         
         farmer memory tmpData = batchFarmer[batchNo];
 
-        emit gfarmerdata(tmpData.farmerID,tmpData.farmerName,tmpData.farmLocation, tmpData.cropType, tmpData.quantity);
+        emit farmerdata(tmpData.farmerID,tmpData.farmerName,tmpData.farmLocation, tmpData.cropType, tmpData.quantity);
         return (tmpData.farmerID,tmpData.farmerName,tmpData.farmLocation, tmpData.cropType, tmpData.quantity);
     }
 
@@ -279,6 +282,7 @@ contract AgrowChainStorage is AgrowChainStorageOwnable {
         
         nextAction[batchNo] = 'DISTRIBUTOR'; 
         
+
         return true;
     }
 
@@ -287,6 +291,8 @@ contract AgrowChainStorage is AgrowChainStorageOwnable {
     function getManufacturerData(address batchNo) public onlyAuthCaller  returns (string memory manufacturerID, string memory cropType, string memory quantity){
         
         manufacturer memory tmpData = batchManufacturer[batchNo];
+
+        emit manufacturerdata(tmpData.manufacturerID, tmpData.cropType, tmpData.quantity);
         return (tmpData.manufacturerID, tmpData.cropType, tmpData.quantity);
     }
 
@@ -310,6 +316,8 @@ contract AgrowChainStorage is AgrowChainStorageOwnable {
     function getDistributorData(address batchNo) public onlyAuthCaller  returns (string memory distributorID, string memory cropType, string memory quantity){
         
         distributor memory tmpData = batchDistributor[batchNo];
+
+        emit distributordata(tmpData.distributorID, tmpData.cropType, tmpData.quantity);
         return (tmpData.distributorID, tmpData.cropType, tmpData.quantity);
     }
 
@@ -332,6 +340,9 @@ contract AgrowChainStorage is AgrowChainStorageOwnable {
     function getRetailerData(address batchNo) public onlyAuthCaller  returns (string memory retailerID, string memory cropType, string memory quantity){
         
         retailer memory tmpData = batchRetailer[batchNo];
+
+        emit retailerdata(tmpData.retailerID, tmpData.cropType, tmpData.quantity);
+
         return (tmpData.retailerID, tmpData.cropType, tmpData.quantity);
     }
     
