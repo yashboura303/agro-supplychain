@@ -17,9 +17,9 @@ contract AgrowChainStorage is AgrowChainStorageOwnable {
     event gBasicDetails(string registrationNo,string farmerName,string manufacturerName,string distributorName,string retailerName);
     event nextaction(string tmpData);
     event farmerdata(string farmerID,string farmerName,string farmLocation,string cropType, string quantity);
-    event manufacturerdata(string manufacturerID, string cropType,string quantity);
-    event distributordata(string distributorID,string cropType,string quantity);
-    event retailerdata(string retailerID, string cropType, string quantity);
+    event manufacturerdata(string manufacturerID,string manufacturerName,string factoryLocation,string cropType,string quantity);
+    event distributordata(string distributorID,string distributorName,string cropType,string quantity);
+    event retailerdata(string retailerID,string retailerName,string storeLocation,string cropType, string quantity);
     /* Modifiers */
     
     modifier onlyAuthCaller(){
@@ -94,6 +94,8 @@ contract AgrowChainStorage is AgrowChainStorageOwnable {
 
     struct manufacturer{
         string manufacturerID;
+        string manufacturerName;
+        string factoryLocation;
         string cropType;
         string quantity;
 
@@ -101,6 +103,7 @@ contract AgrowChainStorage is AgrowChainStorageOwnable {
 
     struct distributor{
         string distributorID;
+        string distributorName;
         string cropType;
         string quantity;
 
@@ -109,6 +112,8 @@ contract AgrowChainStorage is AgrowChainStorageOwnable {
 
     struct retailer{
         string retailerID;
+        string retailerName;
+        string storeLocation;
         string cropType;
         string quantity;
 
@@ -138,7 +143,7 @@ contract AgrowChainStorage is AgrowChainStorageOwnable {
     
     
     
-    /* Get User Role */
+    /* Get User Role 
     function getUserRole(address _userAddress) public onlyAuthCaller  returns(string memory)
     {
         return userRole[_userAddress];
@@ -153,8 +158,8 @@ contract AgrowChainStorage is AgrowChainStorageOwnable {
             
         //return nextAction[_batchNo];
     }
-        
-    /*set user details*/
+       
+    /*set user details
     function setUser(address _userAddress,
                      string memory _name, 
                      string memory _contactNo, 
@@ -162,20 +167,20 @@ contract AgrowChainStorage is AgrowChainStorageOwnable {
                      bool _isActive,
                      string memory _profileHash) public onlyAuthCaller returns(bool){
         
-        /*store data into struct*/
+        /*store data into struct
         userDetail.name = _name;
         userDetail.contactNo = _contactNo;
         userDetail.isActive = _isActive;
         userDetail.profileHash = _profileHash;
         
-        /*store data into mapping*/
+        /*store data into mapping
         userDetails[_userAddress] = userDetail;
         userRole[_userAddress] = _role;
         
         return true;
     }  
     
-    /*get user details*/
+    /*get user details
     function getUser(address _userAddress) public onlyAuthCaller  returns(string memory name, 
                                                                     string memory contactNo, 
                                                                     string memory role,
@@ -183,7 +188,7 @@ contract AgrowChainStorage is AgrowChainStorageOwnable {
                                                                     string memory profileHash
                                                                 ){
 
-        /*Getting value from struct*/
+        /*Getting value from struct
         user memory tmpData = userDetails[_userAddress];
         
         return (tmpData.name, tmpData.contactNo, userRole[_userAddress], tmpData.isActive, tmpData.profileHash);
@@ -272,9 +277,11 @@ contract AgrowChainStorage is AgrowChainStorageOwnable {
 
 
     /*set Manufacturer data*/
-    function setManufacturerData(address batchNo,string memory _manufacturerID,string memory _cropType, string memory _quantity) public onlyAuthCaller returns(bool){
+    function setManufacturerData(address batchNo,string memory _manufacturerID,string memory _manufacturerName,string memory _factoryLocation,string memory _cropType, string memory _quantity) public onlyAuthCaller returns(bool){
         
         manufacturerData.manufacturerID = _manufacturerID;
+        manufacturerData.manufacturerName = _manufacturerName;
+        manufacturerData.factoryLocation = _factoryLocation;
         manufacturerData.cropType = _cropType;
         manufacturerData.quantity = _quantity;
 
@@ -288,19 +295,20 @@ contract AgrowChainStorage is AgrowChainStorageOwnable {
 
 
     /*get manufacturer data*/
-    function getManufacturerData(address batchNo) public onlyAuthCaller  returns (string memory manufacturerID, string memory cropType, string memory quantity){
+    function getManufacturerData(address batchNo) public onlyAuthCaller  returns (string memory manufacturerID,string memory manufacturerName,string memory factoryLocation, string memory cropType, string memory quantity){
         
         manufacturer memory tmpData = batchManufacturer[batchNo];
 
-        emit manufacturerdata(tmpData.manufacturerID, tmpData.cropType, tmpData.quantity);
-        return (tmpData.manufacturerID, tmpData.cropType, tmpData.quantity);
+        emit manufacturerdata(tmpData.manufacturerID,tmpData.manufacturerName,tmpData.factoryLocation,tmpData.cropType,tmpData.quantity);
+        return (tmpData.manufacturerID,tmpData.manufacturerName,tmpData.factoryLocation,tmpData.cropType, tmpData.quantity);
     }
 
 
     /*set distributor data*/
-    function setDistributorData(address batchNo,string memory _distributorID,string memory _cropType, string memory _quantity) public onlyAuthCaller returns(bool){
+    function setDistributorData(address batchNo,string memory _distributorID,string memory _distributorName,string memory _cropType, string memory _quantity) public onlyAuthCaller returns(bool){
         
         distributorData.distributorID = _distributorID;
+        distributorData.distributorName = _distributorName;
         distributorData.cropType = _cropType;
         distributorData.quantity = _quantity;
         
@@ -313,18 +321,20 @@ contract AgrowChainStorage is AgrowChainStorageOwnable {
 
 
     /*get distributor data*/
-    function getDistributorData(address batchNo) public onlyAuthCaller  returns (string memory distributorID, string memory cropType, string memory quantity){
+    function getDistributorData(address batchNo) public onlyAuthCaller  returns (string memory distributorID,string memory distributorName, string memory cropType, string memory quantity){
         
         distributor memory tmpData = batchDistributor[batchNo];
 
-        emit distributordata(tmpData.distributorID, tmpData.cropType, tmpData.quantity);
-        return (tmpData.distributorID, tmpData.cropType, tmpData.quantity);
+        emit distributordata(tmpData.distributorID,tmpData.distributorName,tmpData.cropType,tmpData.quantity);
+        return (tmpData.distributorID,tmpData.distributorName,tmpData.cropType,tmpData.quantity);
     }
 
     /*set retailer data*/
-    function setRetailerData(address batchNo,string memory _retailerID,string memory _cropType, string memory _quantity) public onlyAuthCaller returns(bool){
+    function setRetailerData(address batchNo,string memory _retailerID,string memory _retailerName,string memory _storeLocation,string memory _cropType, string memory _quantity) public onlyAuthCaller returns(bool){
         
         retailerData.retailerID = _retailerID;
+        retailerData.retailerName = _retailerName;
+        retailerData.storeLocation =_storeLocation;
         retailerData.cropType = _cropType;
         retailerData.quantity = _quantity;
         
@@ -337,13 +347,13 @@ contract AgrowChainStorage is AgrowChainStorageOwnable {
 
 
     /*get retailer data*/
-    function getRetailerData(address batchNo) public onlyAuthCaller  returns (string memory retailerID, string memory cropType, string memory quantity){
+    function getRetailerData(address batchNo) public onlyAuthCaller  returns (string memory retailerID,string memory retailerName,string memory storeLocation, string memory cropType, string memory quantity){
         
         retailer memory tmpData = batchRetailer[batchNo];
 
-        emit retailerdata(tmpData.retailerID, tmpData.cropType, tmpData.quantity);
+        emit retailerdata(tmpData.retailerID,tmpData.retailerName,tmpData.storeLocation,tmpData.cropType,tmpData.quantity);
 
-        return (tmpData.retailerID, tmpData.cropType, tmpData.quantity);
+        return (tmpData.retailerID,tmpData.retailerName,tmpData.storeLocation,tmpData.cropType,tmpData.quantity);
     }
     
    

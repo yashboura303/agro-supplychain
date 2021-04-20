@@ -213,6 +213,72 @@ class App extends Component {
             });
     };
 
+    setManufacturerData = (batchNo,manufacturerID,manufacturerName,factoryLocation,cropType,quantity) => {
+        this.setState({ loading: true });
+        this.state.agrowChainStorage.methods
+            .setManufacturerData(batchNo,manufacturerID,manufacturerName,factoryLocation,cropType,quantity)
+            .send({ from: this.state.account })
+            .on('receipt', receipt => {
+                this.setState({ loading: false });
+                console.log(receipt)
+            });
+    };
+
+    getManufacturerData = (batchNo) => {
+        this.setState({ loading: true });
+        this.state.agrowChainStorage.methods
+            .getManufacturerData(batchNo)
+            .send({ from: this.state.account })
+            .on('receipt', receipt => {
+                this.setState({ loading: false });
+                console.log(receipt)
+            });
+    };
+
+    setDistributorData = (batchNo,distributorID,distributorName,cropType,quantity) => {
+        this.setState({ loading: true });
+        this.state.agrowChainStorage.methods
+            .setDistributorData(batchNo,distributorID,distributorName,cropType,quantity)
+            .send({ from: this.state.account })
+            .on('receipt', receipt => {
+                this.setState({ loading: false });
+                console.log(receipt)
+            });
+    };
+
+    getDistributorData = (batchNo) => {
+        this.setState({ loading: true });
+        this.state.agrowChainStorage.methods
+            .getDistributorData(batchNo)
+            .send({ from: this.state.account })
+            .on('receipt', receipt => {
+                this.setState({ loading: false });
+                console.log(receipt)
+            });
+    };
+
+    setRetailerData = (batchNo,retailerID,retailerName,storeLocation,cropType,quantity) => {
+        this.setState({ loading: true });
+        this.state.agrowChainStorage.methods
+            .setRetailerData(batchNo,retailerID,retailerName,storeLocation,cropType,quantity)
+            .send({ from: this.state.account })
+            .on('receipt', receipt => {
+                this.setState({ loading: false });
+                console.log(receipt)
+            });
+    };
+
+    getRetailerData = (batchNo) => {
+        this.setState({ loading: true });
+        this.state.agrowChainStorage.methods
+            .getRetailerData(batchNo)
+            .send({ from: this.state.account })
+            .on('receipt', receipt => {
+                this.setState({ loading: false });
+                console.log(receipt)
+            });
+    };
+
     render() {
         let content;
         if (this.state.loading) {
