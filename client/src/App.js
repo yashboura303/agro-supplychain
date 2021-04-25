@@ -1,93 +1,76 @@
-import ChainRegisterForm from './components/Form/ChainRegisterForm';
-import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import React, { useState, createContext, useEffect } from 'react';
+import { BrowserRouter } from 'react-router-dom';
 
 import AgrowChainStorage from '../src/abis/AgrowChainStorage.json';
 import Web3 from 'web3';
 import axios from 'axios';
 
-import Home from './components/Home/home';
 import MainNavbar from './components/Navbar/MainNavbar';
-import SupplyChain from './components/SupplyChain/Supplychain';
-import SupplyChainList from './components/SupplyChainList/SupplyChainList';
-import ManageSupplyChain from './components/ManageSupplyChains';
-import EditSupplyChains from './components/EditSupplyChains';
-import EditSupplyChain from './components/EditSupplyChains/supplyChain';
+import routing from '../src/routes';
 
-class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            account: '',
-            agrowChainStorage: {},
-            loading: true,
-            batchNo: '',
-            registrationNo: '',
-            farmerName: '',
-            manufacturerName: '',
-            distributorName: '',
-            retailerName: '',
-            details: {},
-            nextAction: '',
-        };
-    }
+export const AppContext = createContext();
+export default function App() {
+    const [details, setdetails] = useState();
+    const [account, setaccount] = useState('');
+    const [batchNo, setbatchNo] = useState();
+    const [loading, setloading] = useState(true);
+    // const [ethBalance, setethBalance] = useState();
+    const [agrowChainStorage, setagrowChainStorage] = useState({});
+    const [nextAction, setnextAction] = useState();
 
-    async componentWillMount() {
-        await this.loadWeb3();
-        await this.loadBlockchainData();
-    }
-
-    async loadBlockchainData() {
-        const web3 = window.web3;
-
-        const accounts = await web3.eth.getAccounts();
-        this.setState({ account: accounts[0] });
-        console.log(this.state.account);
-
-        const ethBalance = await web3.eth.getBalance(this.state.account);
-        this.setState({ ethBalance });
-
-        const networkId = await web3.eth.net.getId();
-
-        const agrowChainStorageData = AgrowChainStorage.networks[networkId];
-
-        if (agrowChainStorageData) {
-            const agrowChainStorage = new web3.eth.Contract(
-                AgrowChainStorage.abi,
-                agrowChainStorageData.address
-            );
-            this.setState({ agrowChainStorage });
-            console.log({ agrowChainStorage });
-        } else {
-            window.alert(
-                'AgrowChainStorage contract not deployed to the given network.'
-            );
+    useEffect(() => {
+        async function loadWeb3() {
+            if (window.ethereum) {
+                window.web3 = new Web3(window.ethereum);
+                await window.ethereum.enable();
+            } else if (window.web3) {
+                window.web3 = new Web3(window.web3.currentProvider);
+            } else {
+                window.alert(
+                    'Non-ethereum browser detected. Try Metamask instead.'
+                );
+            }
         }
-        this.setState({ loading: false });
-    }
+        async function loadBlockchainData() {
+            const web3 = window.web3;
 
-    async loadWeb3() {
-        if (window.ethereum) {
-            window.web3 = new Web3(window.ethereum);
-            await window.ethereum.enable();
-        } else if (window.web3) {
-            window.web3 = new Web3(window.web3.currentProvider);
-        } else {
-            window.alert(
-                'Non-ethereum browser detected. Try Metamask instead.'
-            );
+            const accounts = await web3.eth.getAccounts();
+            setaccount(accounts[0]);
+            console.log('accounts', accounts[0]);
+
+            // const ethBalance = await web3.eth.getBalance(account);
+            // setethBalance(ethBalance);
+
+            const networkId = await web3.eth.net.getId();
+
+            const agrowChainStorageData = AgrowChainStorage.networks[networkId];
+
+            if (agrowChainStorageData) {
+                const agrowChainStorage = new web3.eth.Contract(
+                    AgrowChainStorage.abi,
+                    agrowChainStorageData.address
+                );
+                setagrowChainStorage(agrowChainStorage);
+            } else {
+                window.alert(
+                    'AgrowChainStorage contract not deployed to the given network.'
+                );
+            }
+            setloading(false);
         }
-    }
+        loadWeb3();
+        loadBlockchainData();
+    }, [account]);
 
-    setSupplyChainDetails = (
+    const setSupplyChainDetails = (
         registrationNo,
         farmerName,
         manufacturerName,
         distributorName,
         retailerName
     ) => {
-        this.setState({ loading: true });
-        this.state.agrowChainStorage.methods
+        setloading(true);
+        agrowChainStorage.methods
             .setBasicDetails(
                 registrationNo,
                 farmerName,
@@ -96,31 +79,29 @@ class App extends Component {
                 retailerName
             )
             .send({
-                from: this.state.account,
+                from: account,
             })
             .on('receipt', receipt => {
-                this.setState({ loading: false });
-                console.log(receipt);
+                setloading(false);
                 const batchNo =
                     receipt.events.sBasicDetails.returnValues.batchNo;
-                this.setState({ batchNo: batchNo });
-                console.log(this.state.batchNo);
+                setbatchNo(batchNo);
                 axios
                     .post(`http://localhost:5000/register`, { batchNo })
                     .then(res => {
-                        console.log(res.data);
+                        console.log('Saved to DB', res.data);
                     })
                     .catch(err => console.log(err));
             });
     };
 
-    getSupplyChainDetails = batchNo => {
-        this.setState({ loading: true });
-        this.state.agrowChainStorage.methods
+    const getSupplyChainDetails = batchNo => {
+        setloading(true);
+        agrowChainStorage.methods
             .getBasicDetails(batchNo)
-            .send({ from: this.state.account })
+            .send({ from: account })
             .on('receipt', receipt => {
-                this.setState({ loading: false });
+                setloading(false);
                 console.log(receipt);
                 const registrationNo =
                     receipt.events.gBasicDetails.returnValues.registrationNo;
@@ -132,77 +113,29 @@ class App extends Component {
                     receipt.events.gBasicDetails.returnValues.distributorName;
                 const retailerName =
                     receipt.events.gBasicDetails.returnValues.retailerName;
-                this.setState({
-                    registrationNo: registrationNo,
-                    farmerName: farmerName,
-                    manufacturerName: manufacturerName,
-                    distributorName: distributorName,
-                    retailerName: retailerName,
-                });
                 const details = {
-                    registrationNo: registrationNo,
-                    farmerName: farmerName,
-                    manufacturerName: manufacturerName,
-                    distributorName: distributorName,
-                    retailerName: retailerName,
+                    registrationNo,
+                    farmerName,
+                    manufacturerName,
+                    distributorName,
+                    retailerName,
                 };
-                this.setState({ details });
+                setdetails(details);
             });
     };
 
-    routing = props => {
-        return (
-            <Switch>
-                <Route path="/" exact component={Home}></Route>
-                <Route path="/supplychains" exact>
-                    <SupplyChainList />
-                </Route>
-                <Route path="/supplychain/:batchNo" exact>
-                    <SupplyChain
-                        details={this.state.details}
-                        getSupplyChainDetails={this.getSupplyChainDetails}
-                        getNextAction={this.getNextAction}
-                    />
-                </Route>
-                <Route path="/addSupplyChain" exact>
-                    <ChainRegisterForm
-                        setSupplyChainDetails={this.setSupplyChainDetails}
-                    />
-                </Route>
-                <Route path="/manageSupplyChain" exact>
-                    <ManageSupplyChain />
-                </Route>
-                <Route path="/editSupplyChain" exact>
-                    <EditSupplyChains />
-                </Route>
-                <Route path="/editSupplyChain/:batchNo" exact>
-                    <EditSupplyChain
-                        getNextAction={this.getNextAction}
-                        setFarmerData={this.setFarmerData}
-                        nextAction={this.state.nextAction}
-                    />
-                </Route>
-                <Redirect to="/"></Redirect>
-            </Switch>
-        );
-    };
-
-    getNextAction = batchNo => {
-        this.setState({ loading: true });
-        this.state.agrowChainStorage.methods
+    const getNextAction = batchNo => {
+        setloading(true);
+        agrowChainStorage.methods
             .getNextAction(batchNo)
-            .send({ from: this.state.account })
+            .send({ from: account })
             .on('receipt', receipt => {
-                this.setState({
-                    loading: false,
-                    nextAction: receipt.events.nextaction.returnValues.tmpData,
-                });
-                console.log(receipt);
-                console.log(receipt.events.nextaction.returnValues.tmpData);
+                setloading(false);
+                setnextAction(receipt.events.nextaction.returnValues.tmpData);
             });
     };
 
-    setFarmerData = (
+    const setFarmerData = (
         batchNo,
         farmerID,
         farmerName,
@@ -210,8 +143,8 @@ class App extends Component {
         cropType,
         quantity
     ) => {
-        this.setState({ loading: true });
-        this.state.agrowChainStorage.methods
+        setloading(true);
+        agrowChainStorage.methods
             .setFarmerData(
                 batchNo,
                 farmerID,
@@ -220,25 +153,25 @@ class App extends Component {
                 cropType,
                 quantity
             )
-            .send({ from: this.state.account })
+            .send({ from: account })
             .on('receipt', receipt => {
-                this.setState({ loading: false });
+                setloading(false);
                 console.log(receipt);
             });
     };
 
-    getFarmerData = batchNo => {
-        this.setState({ loading: true });
-        this.state.agrowChainStorage.methods
+    const getFarmerData = batchNo => {
+        setloading(true);
+        agrowChainStorage.methods
             .getFarmerData(batchNo)
-            .send({ from: this.state.account })
+            .send({ from: account })
             .on('receipt', receipt => {
-                this.setState({ loading: false });
+                setloading(false);
                 console.log(receipt);
             });
     };
 
-    setManufacturerData = (
+    const setManufacturerData = (
         batchNo,
         manufacturerID,
         manufacturerName,
@@ -246,8 +179,8 @@ class App extends Component {
         cropType,
         quantity
     ) => {
-        this.setState({ loading: true });
-        this.state.agrowChainStorage.methods
+        setloading(true);
+        agrowChainStorage.methods
             .setManufacturerData(
                 batchNo,
                 manufacturerID,
@@ -256,33 +189,32 @@ class App extends Component {
                 cropType,
                 quantity
             )
-            .send({ from: this.state.account })
+            .send({ from: account })
             .on('receipt', receipt => {
-                this.setState({ loading: false });
+                setloading(false);
                 console.log(receipt);
             });
     };
 
-    getManufacturerData = batchNo => {
-        this.setState({ loading: true });
-        this.state.agrowChainStorage.methods
+    const getManufacturerData = batchNo => {
+        setloading(true);
+        agrowChainStorage.methods
             .getManufacturerData(batchNo)
-            .send({ from: this.state.account })
+            .send({ from: account })
             .on('receipt', receipt => {
-                this.setState({ loading: false });
-                console.log(receipt);
+                setloading(false);
             });
     };
 
-    setDistributorData = (
+    const setDistributorData = (
         batchNo,
         distributorID,
         distributorName,
         cropType,
         quantity
     ) => {
-        this.setState({ loading: true });
-        this.state.agrowChainStorage.methods
+        setloading(true);
+        agrowChainStorage.methods
             .setDistributorData(
                 batchNo,
                 distributorID,
@@ -290,25 +222,23 @@ class App extends Component {
                 cropType,
                 quantity
             )
-            .send({ from: this.state.account })
+            .send({ from: account })
             .on('receipt', receipt => {
-                this.setState({ loading: false });
-                console.log(receipt);
+                setloading(false);
             });
     };
 
-    getDistributorData = batchNo => {
-        this.setState({ loading: true });
-        this.state.agrowChainStorage.methods
+    const getDistributorData = batchNo => {
+        setloading(true);
+        agrowChainStorage.methods
             .getDistributorData(batchNo)
-            .send({ from: this.state.account })
+            .send({ from: account })
             .on('receipt', receipt => {
-                this.setState({ loading: false });
-                console.log(receipt);
+                setloading(false);
             });
     };
 
-    setRetailerData = (
+    const setRetailerData = (
         batchNo,
         retailerID,
         retailerName,
@@ -316,8 +246,8 @@ class App extends Component {
         cropType,
         quantity
     ) => {
-        this.setState({ loading: true });
-        this.state.agrowChainStorage.methods
+        setloading(true);
+        agrowChainStorage.methods
             .setRetailerData(
                 batchNo,
                 retailerID,
@@ -326,45 +256,54 @@ class App extends Component {
                 cropType,
                 quantity
             )
-            .send({ from: this.state.account })
+            .send({ from: account })
             .on('receipt', receipt => {
-                this.setState({ loading: false });
-                console.log(receipt);
+                setloading(false);
             });
     };
 
-    getRetailerData = batchNo => {
-        this.setState({ loading: true });
-        this.state.agrowChainStorage.methods
+    const getRetailerData = batchNo => {
+        setloading(true);
+        agrowChainStorage.methods
             .getRetailerData(batchNo)
-            .send({ from: this.state.account })
+            .send({ from: account })
             .on('receipt', receipt => {
-                this.setState({ loading: false });
-                console.log(receipt);
+                setloading(false);
             });
     };
 
-    render() {
-        let content;
-        if (this.state.loading) {
-            content = (
-                <BrowserRouter>
-                    <MainNavbar />
-                    <p id="loader" className="text-center">
-                        Loading..
-                    </p>
-                </BrowserRouter>
-            );
-        } else {
-            content = (
-                <BrowserRouter>
-                    <MainNavbar />
-                    {this.routing(this.props)}
-                </BrowserRouter>
-            );
-        }
-        return <div>{content}</div>;
+    let content;
+    if (loading) {
+        content = (
+            <>
+                <MainNavbar />
+                <p id="loader" className="text-center">
+                    Loading..
+                </p>
+            </>
+        );
+    } else {
+        content = (
+            <>
+                <MainNavbar />
+                {routing()}
+            </>
+        );
     }
+    return (
+        <BrowserRouter>
+            <AppContext.Provider
+                value={{
+                    details,
+                    getNextAction,
+                    nextAction,
+                    setFarmerData,
+                    setSupplyChainDetails,
+                    getSupplyChainDetails,
+                }}
+            >
+                {content}{' '}
+            </AppContext.Provider>
+        </BrowserRouter>
+    );
 }
-
-export default App;

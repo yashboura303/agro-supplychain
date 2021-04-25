@@ -1,21 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button, Container } from 'react-bootstrap';
 import { extractForm } from '../../utils/formUtils';
-const SupplyChain = props => {
+import { AppContext } from '../../App';
+const SupplyChain = () => {
     const { batchNo } = useParams();
+    const { nextAction, getNextAction } = useContext(AppContext);
     return (
         <div>
             <h4 className="text-center my-4 font-weight-bold">
                 Supply Chain:- {batchNo}
             </h4>
-            {!props.nextAction && (
+            {!nextAction && (
                 <>
                     <Container className="text-center mx-auto">
                         <Button
                             variant="primary"
                             onClick={() => {
-                                props.getNextAction(batchNo);
+                                getNextAction(batchNo);
                             }}
                         >
                             CLick
@@ -27,12 +29,12 @@ const SupplyChain = props => {
                 </>
             )}
 
-            {props.nextAction && (
+            {nextAction && (
                 <h1 className="text-center my-4 text-warning">
-                    Current entity is {props.nextAction}
+                    Current entity is {nextAction}
                 </h1>
             )}
-            {props.nextAction && extractForm(props.nextAction)}
+            {nextAction && extractForm(nextAction)}
         </div>
     );
 };

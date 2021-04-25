@@ -24,6 +24,12 @@ export default function RegisterFarmer(props) {
             formData.manufacturerName,
             formData.distributorName,
             formData.retailerName
+            // batchNo,
+            //     farmerID,
+            //     farmerName,
+            //     farmLocation,
+            //     cropType,
+            //     quantity
         );
     };
     return (
