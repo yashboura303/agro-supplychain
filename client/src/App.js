@@ -11,7 +11,8 @@ import MainNavbar from './components/Navbar/MainNavbar';
 import SupplyChain from './components/SupplyChain/Supplychain';
 import SupplyChainList from './components/SupplyChainList/SupplyChainList';
 import ManageSupplyChain from './components/ManageSupplyChains';
-import EditSupplyChain from './components/EditSupplyChains';
+import EditSupplyChains from './components/EditSupplyChains';
+import EditSupplyChain from './components/EditSupplyChains/supplyChain';
 
 class App extends Component {
     constructor(props) {
@@ -27,6 +28,7 @@ class App extends Component {
             distributorName: '',
             retailerName: '',
             details: {},
+            nextAction: '',
         };
     }
 
@@ -81,7 +83,7 @@ class App extends Component {
         registrationNo,
         farmerName,
         manufacturerName,
-        distributorName,     
+        distributorName,
         retailerName
     ) => {
         this.setState({ loading: true });
@@ -171,7 +173,14 @@ class App extends Component {
                     <ManageSupplyChain />
                 </Route>
                 <Route path="/editSupplyChain" exact>
-                    <EditSupplyChain />
+                    <EditSupplyChains />
+                </Route>
+                <Route path="/editSupplyChain/:batchNo" exact>
+                    <EditSupplyChain
+                        getNextAction={this.getNextAction}
+                        setFarmerData={this.setFarmerData}
+                        nextAction={this.state.nextAction}
+                    />
                 </Route>
                 <Redirect to="/"></Redirect>
             </Switch>
@@ -184,98 +193,154 @@ class App extends Component {
             .getNextAction(batchNo)
             .send({ from: this.state.account })
             .on('receipt', receipt => {
-                this.setState({ loading: false });
-                console.log(receipt)
-                console.log(receipt.events.nextaction.returnValues.tmpData)
-            });
-    };    
-    
-    
-    setFarmerData = (batchNo,farmerID,farmerName,farmLocation,cropType,quantity) => {
-        this.setState({ loading: true });
-        this.state.agrowChainStorage.methods
-            .setFarmerData(batchNo,farmerID,farmerName,farmLocation,cropType,quantity)
-            .send({ from: this.state.account })
-            .on('receipt', receipt => {
-                this.setState({ loading: false });
-                console.log(receipt)
+                this.setState({
+                    loading: false,
+                    nextAction: receipt.events.nextaction.returnValues.tmpData,
+                });
+                console.log(receipt);
+                console.log(receipt.events.nextaction.returnValues.tmpData);
             });
     };
 
-    getFarmerData = (batchNo) => {
+    setFarmerData = (
+        batchNo,
+        farmerID,
+        farmerName,
+        farmLocation,
+        cropType,
+        quantity
+    ) => {
+        this.setState({ loading: true });
+        this.state.agrowChainStorage.methods
+            .setFarmerData(
+                batchNo,
+                farmerID,
+                farmerName,
+                farmLocation,
+                cropType,
+                quantity
+            )
+            .send({ from: this.state.account })
+            .on('receipt', receipt => {
+                this.setState({ loading: false });
+                console.log(receipt);
+            });
+    };
+
+    getFarmerData = batchNo => {
         this.setState({ loading: true });
         this.state.agrowChainStorage.methods
             .getFarmerData(batchNo)
             .send({ from: this.state.account })
             .on('receipt', receipt => {
                 this.setState({ loading: false });
-                console.log(receipt)
+                console.log(receipt);
             });
     };
 
-    setManufacturerData = (batchNo,manufacturerID,manufacturerName,factoryLocation,cropType,quantity) => {
+    setManufacturerData = (
+        batchNo,
+        manufacturerID,
+        manufacturerName,
+        factoryLocation,
+        cropType,
+        quantity
+    ) => {
         this.setState({ loading: true });
         this.state.agrowChainStorage.methods
-            .setManufacturerData(batchNo,manufacturerID,manufacturerName,factoryLocation,cropType,quantity)
+            .setManufacturerData(
+                batchNo,
+                manufacturerID,
+                manufacturerName,
+                factoryLocation,
+                cropType,
+                quantity
+            )
             .send({ from: this.state.account })
             .on('receipt', receipt => {
                 this.setState({ loading: false });
-                console.log(receipt)
+                console.log(receipt);
             });
     };
 
-    getManufacturerData = (batchNo) => {
+    getManufacturerData = batchNo => {
         this.setState({ loading: true });
         this.state.agrowChainStorage.methods
             .getManufacturerData(batchNo)
             .send({ from: this.state.account })
             .on('receipt', receipt => {
                 this.setState({ loading: false });
-                console.log(receipt)
+                console.log(receipt);
             });
     };
 
-    setDistributorData = (batchNo,distributorID,distributorName,cropType,quantity) => {
+    setDistributorData = (
+        batchNo,
+        distributorID,
+        distributorName,
+        cropType,
+        quantity
+    ) => {
         this.setState({ loading: true });
         this.state.agrowChainStorage.methods
-            .setDistributorData(batchNo,distributorID,distributorName,cropType,quantity)
+            .setDistributorData(
+                batchNo,
+                distributorID,
+                distributorName,
+                cropType,
+                quantity
+            )
             .send({ from: this.state.account })
             .on('receipt', receipt => {
                 this.setState({ loading: false });
-                console.log(receipt)
+                console.log(receipt);
             });
     };
 
-    getDistributorData = (batchNo) => {
+    getDistributorData = batchNo => {
         this.setState({ loading: true });
         this.state.agrowChainStorage.methods
             .getDistributorData(batchNo)
             .send({ from: this.state.account })
             .on('receipt', receipt => {
                 this.setState({ loading: false });
-                console.log(receipt)
+                console.log(receipt);
             });
     };
 
-    setRetailerData = (batchNo,retailerID,retailerName,storeLocation,cropType,quantity) => {
+    setRetailerData = (
+        batchNo,
+        retailerID,
+        retailerName,
+        storeLocation,
+        cropType,
+        quantity
+    ) => {
         this.setState({ loading: true });
         this.state.agrowChainStorage.methods
-            .setRetailerData(batchNo,retailerID,retailerName,storeLocation,cropType,quantity)
+            .setRetailerData(
+                batchNo,
+                retailerID,
+                retailerName,
+                storeLocation,
+                cropType,
+                quantity
+            )
             .send({ from: this.state.account })
             .on('receipt', receipt => {
                 this.setState({ loading: false });
-                console.log(receipt)
+                console.log(receipt);
             });
     };
 
-    getRetailerData = (batchNo) => {
+    getRetailerData = batchNo => {
         this.setState({ loading: true });
         this.state.agrowChainStorage.methods
             .getRetailerData(batchNo)
             .send({ from: this.state.account })
             .on('receipt', receipt => {
                 this.setState({ loading: false });
-                console.log(receipt)
+                console.log(receipt);
             });
     };
 

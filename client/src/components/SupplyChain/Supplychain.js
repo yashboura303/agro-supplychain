@@ -6,7 +6,6 @@ export default function Supplychain(props) {
     // const [details, setDetails] = useState();
     const getDetails = () => {
         props.getSupplyChainDetails(batchNo);
-        console.log(props.getNextAction(batchNo));
     };
     // useEffect(() => {
     //     getDetails();

@@ -28,7 +28,7 @@ export default function Index(props) {
                             <td>
                                 <Link
                                     className="nav-link d-inline text-dark font-weight-bold"
-                                    to={`supplychain/${supplyChain.batchNo}`}
+                                    to={`editSupplyChain/${supplyChain.batchNo}`}
                                 >
                                     {supplyChain.batchNo}
                                 </Link>
