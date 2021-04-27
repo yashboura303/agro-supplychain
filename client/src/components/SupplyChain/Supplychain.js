@@ -19,14 +19,14 @@ export default function Supplychain() {
             >
                 Click to view details
             </Button>
-            {details && (
+            {details[batchNo] && (
                 <div className="text-capitalize my-5">
                     <p>
                         {' '}
                         <span className="font-weight-bold">
                             Registration No :
                         </span>{' '}
-                        {details.registrationNo}
+                        {details[batchNo].registrationNo}
                     </p>
                     <hr />
                     <p>
@@ -34,7 +34,7 @@ export default function Supplychain() {
                         <span className="font-weight-bold">
                             Farmer Name :
                         </span>{' '}
-                        {details.farmerName}
+                        {details[batchNo].farmerName}
                     </p>
                     <hr />
                     <p>
@@ -42,7 +42,7 @@ export default function Supplychain() {
                         <span className="font-weight-bold">
                             Manufacturer Name :
                         </span>{' '}
-                        {details.manufacturerName}
+                        {details[batchNo].manufacturerName}
                     </p>
                     <hr />
                     <p>
@@ -50,7 +50,7 @@ export default function Supplychain() {
                         <span className="font-weight-bold">
                             Retailer Name :
                         </span>{' '}
-                        {details.retailerName}
+                        {details[batchNo].retailerName}
                     </p>
                     <hr />
                 </div>

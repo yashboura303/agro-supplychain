@@ -5,7 +5,7 @@ import { extractForm } from '../../utils/formUtils';
 import { AppContext } from '../../App';
 const SupplyChain = () => {
     const { batchNo } = useParams();
-    const { nextAction, getNextAction } = useContext(AppContext);
+    const { nextAction, getNextAction, setbatchNo } = useContext(AppContext);
     return (
         <div>
             <h4 className="text-center my-4 font-weight-bold">
@@ -17,6 +17,7 @@ const SupplyChain = () => {
                         <Button
                             variant="primary"
                             onClick={() => {
+                                setbatchNo(batchNo);
                                 getNextAction(batchNo);
                             }}
                         >

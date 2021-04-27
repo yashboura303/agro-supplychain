@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Form, Col, Container, Button } from 'react-bootstrap';
+import { AppContext } from '../../App';
 
 export default function RegisterFarmer(props) {
     const [formData, setFormData] = useState({
@@ -9,27 +10,21 @@ export default function RegisterFarmer(props) {
         cropType: '',
         quantity: '',
     });
+    const { setFarmerData, batchNo } = useContext(AppContext);
     const handlechange = event => {
         let fieldName = event.target.name;
         let fieldVal = event.target.value;
-        setFormData({
-            formData: { formData, [fieldName]: fieldVal },
-        });
+        setFormData({ ...formData, [fieldName]: fieldVal });
     };
     const submitForm = event => {
         event.preventDefault();
-        props.setSupplyChainDetails(
-            formData.registrationNo,
+        setFarmerData(
+            batchNo,
+            formData.farmerID,
             formData.farmerName,
-            formData.manufacturerName,
-            formData.distributorName,
-            formData.retailerName
-            // batchNo,
-            //     farmerID,
-            //     farmerName,
-            //     farmLocation,
-            //     cropType,
-            //     quantity
+            formData.farmLocation,
+            formData.cropType,
+            formData.quantity
         );
     };
     return (
@@ -44,9 +39,9 @@ export default function RegisterFarmer(props) {
                         <Col>
                             <Form.Control
                                 type="text"
-                                placeholder="Registration No"
-                                value={formData.farmerID}
-                                name="registrationNo"
+                                placeholder="Farmer ID"
+                                defaultValue={formData.farmerID}
+                                name="farmerID"
                                 onChange={handlechange}
                             />
                         </Col>
@@ -59,9 +54,9 @@ export default function RegisterFarmer(props) {
                         <Col>
                             <Form.Control
                                 type="text"
-                                placeholder="Registration No"
-                                value={formData.farmerName}
-                                name="registrationNo"
+                                placeholder="Farmer Name"
+                                defaultValue={formData.farmerName}
+                                name="farmerName"
                                 onChange={handlechange}
                             />
                         </Col>
@@ -74,9 +69,9 @@ export default function RegisterFarmer(props) {
                         <Col>
                             <Form.Control
                                 type="text"
-                                placeholder="Farmer Name"
-                                value={formData.farmLocation}
-                                name="farmerName"
+                                placeholder="Farmer Location"
+                                defaultValue={formData.farmLocation}
+                                name="farmLocation"
                                 onChange={handlechange}
                             />
                         </Col>
@@ -89,9 +84,9 @@ export default function RegisterFarmer(props) {
                         <Col>
                             <Form.Control
                                 type="text"
-                                placeholder="Manufacturer Name"
-                                value={formData.cropType}
-                                name="manufacturerName"
+                                placeholder="Crop Type"
+                                defaultValue={formData.cropType}
+                                name="cropType"
                                 onChange={handlechange}
                                 // className="w-50"
                             />
@@ -105,9 +100,9 @@ export default function RegisterFarmer(props) {
                         <Col>
                             <Form.Control
                                 type="text"
-                                placeholder="Distributer Name"
-                                value={formData.quantity}
-                                name="distributorName"
+                                placeholder="Quantity"
+                                defaultValue={formData.quantity}
+                                name="quantity"
                                 onChange={handlechange}
                                 // className="w-50"
                             />

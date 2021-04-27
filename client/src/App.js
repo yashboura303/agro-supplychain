@@ -10,7 +10,7 @@ import routing from '../src/routes';
 
 export const AppContext = createContext();
 export default function App() {
-    const [details, setdetails] = useState();
+    const [details, setdetails] = useState({});
     const [account, setaccount] = useState('');
     const [batchNo, setbatchNo] = useState();
     const [loading, setloading] = useState(true);
@@ -113,14 +113,20 @@ export default function App() {
                     receipt.events.gBasicDetails.returnValues.distributorName;
                 const retailerName =
                     receipt.events.gBasicDetails.returnValues.retailerName;
-                const details = {
+                const detailsObject = {
                     registrationNo,
                     farmerName,
                     manufacturerName,
                     distributorName,
                     retailerName,
                 };
-                setdetails(details);
+                // setdetails(details);
+                console.log(batchNo, detailsObject);
+                setdetails({
+                    ...details,
+                    [batchNo]: detailsObject,
+                });
+                console.log('details', details);
             });
     };
 
@@ -300,6 +306,8 @@ export default function App() {
                     setFarmerData,
                     setSupplyChainDetails,
                     getSupplyChainDetails,
+                    batchNo,
+                    setbatchNo,
                 }}
             >
                 {content}{' '}
