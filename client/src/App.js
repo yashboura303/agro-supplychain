@@ -11,6 +11,10 @@ import routing from '../src/routes';
 export const AppContext = createContext();
 export default function App() {
    const [details, setdetails] = useState({});
+   const [farmerData, setfarmerDataState] = useState({});
+   const [manufacturerData, setmanufacturerDataState] = useState({});
+   const [distributerData, setdistributerDataState] = useState({});
+   const [retailerData, setretailerDataState] = useState({});
    const [account, setaccount] = useState('');
    const [batchNo, setbatchNo] = useState();
    const [loading, setloading] = useState(true);
@@ -101,7 +105,6 @@ export default function App() {
                ...details,
                [batchNo]: detailsObject,
             });
-            console.log('details', details);
          });
    };
 
@@ -134,8 +137,24 @@ export default function App() {
          .getFarmerData(batchNo)
          .send({ from: account })
          .on('receipt', receipt => {
-            setloading(false);
             console.log(receipt);
+            setloading(false);
+            const farmerID = receipt.events.farmerdata.returnValues.farmerID;
+            const farmerName = receipt.events.farmerdata.returnValues.farmerName;
+            const farmLocation = receipt.events.farmerdata.returnValues.farmLocation;
+            const cropType = receipt.events.farmerdata.returnValues.cropType;
+            const quantity = receipt.events.farmerdata.returnValues.quantity;
+            const detailsObject = {
+               farmerID,
+               farmerName,
+               farmLocation,
+               cropType,
+               quantity,
+            };
+            setfarmerDataState({
+               ...farmerData,
+               [batchNo]: detailsObject,
+            });
          });
    };
 
@@ -231,6 +250,11 @@ export default function App() {
                batchNo,
                setbatchNo,
                setManufacturerData,
+               getFarmerData,
+               farmerData,
+               getManufacturerData,
+               getRetailerData,
+               getDistributorData,
             }}
          >
             {content}{' '}
