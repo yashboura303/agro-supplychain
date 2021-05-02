@@ -4,23 +4,23 @@ import RegisterManufac from '../components/Form/RegisterManufac';
 import RegisterRetailer from '../components/Form/RegisterRetailer';
 
 export const extractForm = formName => {
-    switch (formName) {
-        case 'FARMER': {
-            return <RegisterFarmer />;
-        }
+   switch (formName) {
+      case 'FARMER': {
+         return <RegisterFarmer />;
+      }
 
-        case 'MANUFACTURER': {
-            return <RegisterManufac />;
-        }
+      case 'MANUFACTURER': {
+         return <RegisterManufac />;
+      }
 
-        case 'DISTRIBUTER': {
-            return <RegisterDistributer />;
-        }
-        case 'RETAILER': {
-            return <RegisterRetailer />;
-        }
+      case 'DISTRIBUTER': {
+         return <RegisterDistributer />;
+      }
+      case 'RETAILER': {
+         return <RegisterRetailer />;
+      }
 
-        default:
-            return null;
-    }
+      default:
+         return null;
+   }
 };

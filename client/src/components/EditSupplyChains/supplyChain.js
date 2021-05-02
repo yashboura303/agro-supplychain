@@ -4,40 +4,34 @@ import { Button, Container } from 'react-bootstrap';
 import { extractForm } from '../../utils/formUtils';
 import { AppContext } from '../../App';
 const SupplyChain = () => {
-    const { batchNo } = useParams();
-    const { nextAction, getNextAction, setbatchNo } = useContext(AppContext);
-    return (
-        <div>
-            <h4 className="text-center my-4 font-weight-bold">
-                Supply Chain:- {batchNo}
-            </h4>
-            {!nextAction && (
-                <>
-                    <Container className="text-center mx-auto">
-                        <Button
-                            variant="primary"
-                            onClick={() => {
-                                setbatchNo(batchNo);
-                                getNextAction(batchNo);
-                            }}
-                        >
-                            CLick
-                        </Button>
-                        <p className="mt-3">
-                            Click to view current entity in this chain
-                        </p>
-                    </Container>
-                </>
-            )}
+   const { batchNo } = useParams();
+   const { nextAction, getNextAction, setbatchNo } = useContext(AppContext);
+   return (
+      <div>
+         <h4 className="text-center my-4 font-weight-bold">Supply Chain:- {batchNo}</h4>
+         {!nextAction[batchNo] && (
+            <>
+               <Container className="text-center mx-auto">
+                  <Button
+                     variant="primary"
+                     onClick={() => {
+                        setbatchNo(batchNo);
+                        getNextAction(batchNo);
+                     }}
+                  >
+                     CLick
+                  </Button>
+                  <p className="mt-3">Click to view current entity in this chain</p>
+               </Container>
+            </>
+         )}
 
-            {nextAction && (
-                <h1 className="text-center my-4 text-warning">
-                    Current entity is {nextAction}
-                </h1>
-            )}
-            {nextAction && extractForm(nextAction)}
-        </div>
-    );
+         {nextAction[batchNo] && (
+            <h1 className="text-center my-4 text-warning">Current entity is {nextAction[batchNo]}</h1>
+         )}
+         {nextAction[batchNo] && extractForm(nextAction[batchNo])}
+      </div>
+   );
 };
 
 export default SupplyChain;
