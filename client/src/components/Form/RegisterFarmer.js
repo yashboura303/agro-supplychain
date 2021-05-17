@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Form, Col, Container, Button } from 'react-bootstrap';
 import { AppContext } from '../../App';
 import { useHistory } from 'react-router';
+import axios from 'axios';
 
 export default function RegisterFarmer(props) {
    const history = useHistory();
@@ -20,6 +21,12 @@ export default function RegisterFarmer(props) {
    };
    const submitForm = event => {
       event.preventDefault();
+      axios
+         .post(`http://localhost:5000/addData`, { batchNo, data: formData, dataType: 'farmerData' })
+         .then(res => {
+            console.log('Saved to DB', res.data);
+         })
+         .catch(err => console.log(err));
       setFarmerData(
          batchNo,
          formData.farmerID,

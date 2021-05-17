@@ -25,7 +25,7 @@ export default function SupplychainDetail() {
                   {farmerData[batchNo] && <span> - {farmerData[batchNo].farmLocation} </span>}
                </p>
                <p>
-                  <span className="badge badge-light ">Crop Type </span>
+                  <span className="badge badge-light ">Tea Type </span>
                   {farmerData[batchNo] && <span> - {farmerData[batchNo].cropType}</span>}
                </p>
                <p>

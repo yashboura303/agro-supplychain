@@ -2,17 +2,17 @@ import React, { useState, useContext } from 'react';
 import { Form, Col, Container, Button } from 'react-bootstrap';
 import { AppContext } from '../../App';
 import { useHistory } from 'react-router';
+import axios from 'axios';
 
 export default function RegisterDistributer(props) {
    const history = useHistory();
    const [formData, setFormData] = useState({
-      farmerName: '',
-      farmerID: '',
-      farmLocation: '',
+      distributorName: '',
+      distributorID: '',
       cropType: '',
       quantity: '',
    });
-   const { setFarmerData, batchNo, getNextAction } = useContext(AppContext);
+   const { setDistributorData, batchNo, getNextAction } = useContext(AppContext);
    const handlechange = event => {
       let fieldName = event.target.name;
       let fieldVal = event.target.value;
@@ -20,11 +20,16 @@ export default function RegisterDistributer(props) {
    };
    const submitForm = event => {
       event.preventDefault();
-      setFarmerData(
+      axios
+         .post(`http://localhost:5000/addData`, { batchNo, data: formData, dataType: 'distributerData' })
+         .then(res => {
+            console.log('Saved to DB', res.data);
+         })
+         .catch(err => console.log(err));
+      setDistributorData(
          batchNo,
-         formData.farmerID,
-         formData.farmerName,
-         formData.farmLocation,
+         formData.distributorID,
+         formData.distributorName,
          formData.cropType,
          formData.quantity
       );
@@ -37,14 +42,14 @@ export default function RegisterDistributer(props) {
             <Form.Group>
                <Form.Row>
                   <Form.Label className="font-weight-bold" column lg={2}>
-                     Farmer Name
+                     Distributer Name
                   </Form.Label>
                   <Col>
                      <Form.Control
                         type="text"
-                        placeholder="Registration No"
-                        value={formData.farmerName}
-                        name="registrationNo"
+                        placeholder="Distributer Name"
+                        value={formData.distributorName}
+                        name="distributorName"
                         onChange={handlechange}
                         // className="w-50"
                      />
@@ -53,14 +58,14 @@ export default function RegisterDistributer(props) {
                <br />
                <Form.Row>
                   <Form.Label className="font-weight-bold" column lg={2}>
-                     Farmer Location
+                     Distributer ID
                   </Form.Label>
                   <Col>
                      <Form.Control
                         type="text"
-                        placeholder="Farmer Name"
-                        value={formData.farmLocation}
-                        name="farmerName"
+                        placeholder="Distributor ID"
+                        value={formData.distributorID}
+                        name="distributorID"
                         onChange={handlechange}
                         // className="w-50"
                      />
@@ -74,9 +79,9 @@ export default function RegisterDistributer(props) {
                   <Col>
                      <Form.Control
                         type="text"
-                        placeholder="Manufacturer Name"
+                        placeholder="Crop Type"
                         value={formData.cropType}
-                        name="manufacturerName"
+                        name="cropType"
                         onChange={handlechange}
                         // className="w-50"
                      />
@@ -90,9 +95,9 @@ export default function RegisterDistributer(props) {
                   <Col>
                      <Form.Control
                         type="text"
-                        placeholder="Distributer Name"
+                        placeholder="Quantity"
                         value={formData.quantity}
-                        name="distributorName"
+                        name="quantity"
                         onChange={handlechange}
                         // className="w-50"
                      />

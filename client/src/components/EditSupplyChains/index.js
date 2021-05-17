@@ -12,7 +12,8 @@ export default function Index(props) {
    }, []);
    return (
       <>
-         <h2 className="text-center mt-4">Supply Chain List</h2>
+         <h2 className="text-center mt-4">Supply Chain List
+         </h2>
          <ol className="my-4 ">
             {supplyChains.map(supplyChain => (
                <li key={supplyChain.batchNo}>

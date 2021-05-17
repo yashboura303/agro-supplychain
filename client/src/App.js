@@ -6,11 +6,22 @@ import Web3 from 'web3';
 import axios from 'axios';
 
 import MainNavbar from './components/Navbar/MainNavbar';
+import UILoader from './components/ui-loader/index';
 import routing from '../src/routes';
+
+import { Spinner } from 'reactstrap';
 
 export const AppContext = createContext();
 export default function App() {
    const [details, setdetails] = useState({});
+   const [modalIsOpen, setIsOpen] = useState(false);
+   function openModal() {
+      setIsOpen(true);
+   }
+
+   function closeModal() {
+      setIsOpen(false);
+   }
    const [farmerData, setfarmerDataState] = useState({});
    const [manufacturerData, setmanufacturerDataState] = useState({});
    const [distributerData, setdistributerDataState] = useState({});
@@ -176,6 +187,22 @@ export default function App() {
          .send({ from: account })
          .on('receipt', receipt => {
             setloading(false);
+            const manufacturerID = receipt.events.manufacturerdata.returnValues.manufacturerID;
+            const manufacturerName = receipt.events.manufacturerdata.returnValues.manufacturerName;
+            const factoryLocation = receipt.events.manufacturerdata.returnValues.factoryLocation;
+            const cropType = receipt.events.manufacturerdata.returnValues.cropType;
+            const quantity = receipt.events.manufacturerdata.returnValues.quantity;
+            const detailsObject = {
+               manufacturerID,
+               manufacturerName,
+               factoryLocation,
+               cropType,
+               quantity,
+            };
+            setmanufacturerDataState({
+               ...manufacturerData,
+               [batchNo]: detailsObject,
+            });
          });
    };
 
@@ -196,6 +223,20 @@ export default function App() {
          .send({ from: account })
          .on('receipt', receipt => {
             setloading(false);
+            const distributorID = receipt.events.distributordata.returnValues.distributorID;
+            const distributorName = receipt.events.distributordata.returnValues.distributorName;
+            const cropType = receipt.events.distributordata.returnValues.cropType;
+            const quantity = receipt.events.manufacturerdata.returnValues.quantity;
+            const detailsObject = {
+               distributorID,
+               distributorName,
+               cropType,
+               quantity,
+            };
+            setdistributerDataState({
+               ...distributerData,
+               [batchNo]: detailsObject,
+            });
          });
    };
 
@@ -216,27 +257,33 @@ export default function App() {
          .send({ from: account })
          .on('receipt', receipt => {
             setloading(false);
+            const retailerID = receipt.events.distributordata.returnValues.retailerID;
+            const retailerName = receipt.events.distributordata.returnValues.retailerName;
+            const storeLocation = receipt.events.distributordata.returnValues.storeLocation;
+            const cropType = receipt.events.distributordata.returnValues.cropType;
+            const quantity = receipt.events.manufacturerdata.returnValues.quantity;
+            const detailsObject = {
+               retailerID,
+               retailerName,
+               storeLocation,
+               cropType,
+               quantity,
+            };
+            setretailerDataState({
+               ...retailerData,
+               [batchNo]: detailsObject,
+            });
+            // });
          });
    };
 
-   let content;
-   if (loading) {
-      content = (
+   const Loader = () => {
+      return (
          <>
-            <MainNavbar />
-            <p id="loader" className="text-center">
-               Loading..
-            </p>
+            <Spinner />
          </>
       );
-   } else {
-      content = (
-         <>
-            <MainNavbar />
-            {routing()}
-         </>
-      );
-   }
+   };
    return (
       <BrowserRouter>
          <AppContext.Provider
@@ -255,10 +302,23 @@ export default function App() {
                getManufacturerData,
                getRetailerData,
                getDistributorData,
+               setRetailerData,
+               setDistributorData,
+               modalIsOpen,
+               openModal,
+               closeModal,
             }}
          >
-            {content}{' '}
+            <UILoader blocking={loading} loader={<Loader />}>
+               <MainNavbar />
+               {routing()}
+            </UILoader>
          </AppContext.Provider>
       </BrowserRouter>
    );
 }
+UILoader.defaultProps = {
+   tag: 'div',
+   blocking: false,
+   loader: <Spinner color="primary" />,
+};

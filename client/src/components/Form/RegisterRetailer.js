@@ -2,17 +2,18 @@ import React, { useState, useContext } from 'react';
 import { Form, Col, Container, Button } from 'react-bootstrap';
 import { AppContext } from '../../App';
 import { useHistory } from 'react-router';
+import axios from 'axios';
 
 export default function RegisterRetailer(props) {
    const history = useHistory();
    const [formData, setFormData] = useState({
-      farmerName: '',
-      farmerID: '',
-      farmLocation: '',
+      retailerName: '',
+      retailerID: '',
+      storeLocation: '',
       cropType: '',
       quantity: '',
    });
-   const { setManufacturerData, batchNo, getNextAction } = useContext(AppContext);
+   const { setRetailerData, batchNo, getNextAction } = useContext(AppContext);
    const handlechange = event => {
       let fieldName = event.target.name;
       let fieldVal = event.target.value;
@@ -20,11 +21,17 @@ export default function RegisterRetailer(props) {
    };
    const submitForm = event => {
       event.preventDefault();
-      setManufacturerData(
+      axios
+         .post(`http://localhost:5000/addData`, { batchNo, data: formData, dataType: 'retailerData' })
+         .then(res => {
+            console.log('Saved to DB', res.data);
+         })
+         .catch(err => console.log(err));
+      setRetailerData(
          batchNo,
-         formData.farmerID,
-         formData.farmerName,
-         formData.farmLocation,
+         formData.retailerID,
+         formData.retailerName,
+         formData.storeLocation,
          formData.cropType,
          formData.quantity
       );
@@ -37,14 +44,29 @@ export default function RegisterRetailer(props) {
             <Form.Group>
                <Form.Row>
                   <Form.Label className="font-weight-bold" column lg={2}>
-                     Farmer Name
+                     Retailer ID
                   </Form.Label>
                   <Col>
                      <Form.Control
                         type="text"
-                        placeholder="Registration No"
-                        value={formData.farmerName}
-                        name="registrationNo"
+                        placeholder="Retailer ID"
+                        value={formData.retailerID}
+                        name="retailerID"
+                        onChange={handlechange}
+                        // className="w-50"
+                     />
+                  </Col>
+               </Form.Row>
+               <Form.Row>
+                  <Form.Label className="font-weight-bold" column lg={2}>
+                     Retailer Name
+                  </Form.Label>
+                  <Col>
+                     <Form.Control
+                        type="text"
+                        placeholder="Retailer Name"
+                        value={formData.retailerName}
+                        name="retailerName"
                         onChange={handlechange}
                         // className="w-50"
                      />
@@ -53,14 +75,14 @@ export default function RegisterRetailer(props) {
                <br />
                <Form.Row>
                   <Form.Label className="font-weight-bold" column lg={2}>
-                     Farmer Location
+                     Store Location
                   </Form.Label>
                   <Col>
                      <Form.Control
                         type="text"
-                        placeholder="Farmer Name"
-                        value={formData.farmLocation}
-                        name="farmerName"
+                        placeholder="Store Location"
+                        value={formData.storeLocation}
+                        name="storeLocation"
                         onChange={handlechange}
                         // className="w-50"
                      />
@@ -74,9 +96,9 @@ export default function RegisterRetailer(props) {
                   <Col>
                      <Form.Control
                         type="text"
-                        placeholder="Manufacturer Name"
+                        placeholder="Crop Type"
                         value={formData.cropType}
-                        name="manufacturerName"
+                        name="cropType"
                         onChange={handlechange}
                         // className="w-50"
                      />
@@ -90,9 +112,9 @@ export default function RegisterRetailer(props) {
                   <Col>
                      <Form.Control
                         type="text"
-                        placeholder="Distributer Name"
+                        placeholder="Quantity"
                         value={formData.quantity}
-                        name="distributorName"
+                        name="quantity"
                         onChange={handlechange}
                         // className="w-50"
                      />

@@ -2,13 +2,13 @@ import React, { useState, useContext } from 'react';
 import { Form, Col, Container, Button } from 'react-bootstrap';
 import { AppContext } from '../../App';
 import { useHistory } from 'react-router';
-
+import axios from 'axios';
 export default function RegisterManufac(props) {
    const history = useHistory();
    const [formData, setFormData] = useState({
-      farmerName: '',
-      farmerID: '',
-      farmLocation: '',
+      manufacturerName: '',
+      manufacturerID: '',
+      factoryLocation: '',
       cropType: '',
       quantity: '',
    });
@@ -20,11 +20,17 @@ export default function RegisterManufac(props) {
    };
    const submitForm = event => {
       event.preventDefault();
+      axios
+         .post(`http://localhost:5000/addData`, { batchNo, data: formData, dataType: 'manufacturerData' })
+         .then(res => {
+            console.log('Saved to DB', res.data);
+         })
+         .catch(err => console.log(err));
       setManufacturerData(
          batchNo,
-         formData.farmerID,
-         formData.farmerName,
-         formData.farmLocation,
+         formData.manufacturerID,
+         formData.manufacturerName,
+         formData.factoryLocation,
          formData.cropType,
          formData.quantity
       );
@@ -37,14 +43,29 @@ export default function RegisterManufac(props) {
             <Form.Group>
                <Form.Row>
                   <Form.Label className="font-weight-bold" column lg={2}>
-                     Farmer Name
+                     Manufacturer ID
                   </Form.Label>
                   <Col>
                      <Form.Control
                         type="text"
-                        placeholder="Registration No"
-                        value={formData.farmerName}
-                        name="registrationNo"
+                        placeholder="Manufacturer Name"
+                        value={formData.manufacturerID}
+                        name="manufacturerID"
+                        onChange={handlechange}
+                        // className="w-50"
+                     />
+                  </Col>
+               </Form.Row>
+               <Form.Row>
+                  <Form.Label className="font-weight-bold" column lg={2}>
+                     Manufacturer Name
+                  </Form.Label>
+                  <Col>
+                     <Form.Control
+                        type="text"
+                        placeholder="Manufacturer Name"
+                        value={formData.manufacturerName}
+                        name="manufacturerName"
                         onChange={handlechange}
                         // className="w-50"
                      />
@@ -53,14 +74,14 @@ export default function RegisterManufac(props) {
                <br />
                <Form.Row>
                   <Form.Label className="font-weight-bold" column lg={2}>
-                     Farmer Location
+                     Factory Location
                   </Form.Label>
                   <Col>
                      <Form.Control
                         type="text"
                         placeholder="Farmer Name"
-                        value={formData.farmLocation}
-                        name="farmerName"
+                        value={formData.factoryLocation}
+                        name="factoryLocation"
                         onChange={handlechange}
                         // className="w-50"
                      />
@@ -76,7 +97,7 @@ export default function RegisterManufac(props) {
                         type="text"
                         placeholder="Manufacturer Name"
                         value={formData.cropType}
-                        name="manufacturerName"
+                        name="cropType"
                         onChange={handlechange}
                         // className="w-50"
                      />
@@ -92,7 +113,7 @@ export default function RegisterManufac(props) {
                         type="text"
                         placeholder="Distributer Name"
                         value={formData.quantity}
-                        name="distributorName"
+                        name="quantity"
                         onChange={handlechange}
                         // className="w-50"
                      />
