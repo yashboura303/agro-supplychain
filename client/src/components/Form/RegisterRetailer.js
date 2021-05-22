@@ -22,7 +22,11 @@ export default function RegisterRetailer(props) {
     const submitForm = event => {
         event.preventDefault();
         axios
-            .post(`http://localhost:5000/addData`, { batchNo, data: formData, dataType: 'retailerData' })
+            .post(`https://agrochain-server.herokuapp.com/addData`, {
+                batchNo,
+                data: formData,
+                dataType: 'retailerData',
+            })
             .then(res => {
                 console.log('Saved to DB', res.data);
             })

@@ -21,7 +21,11 @@ export default function RegisterManufac(props) {
     const submitForm = event => {
         event.preventDefault();
         axios
-            .post(`http://localhost:5000/addData`, { batchNo, data: formData, dataType: 'manufacturerData' })
+            .post(`https://agrochain-server.herokuapp.com/addData`, {
+                batchNo,
+                data: formData,
+                dataType: 'manufacturerData',
+            })
             .then(res => {
                 console.log('Saved to DB', res.data);
             })
