@@ -32,6 +32,7 @@ export default function App() {
     // const [ethBalance, setethBalance] = useState();
     const [agrowChainStorage, setagrowChainStorage] = useState({});
     const [nextAction, setnextAction] = useState({});
+    const [supplyChain, setSupplyChain] = useState();
 
     useEffect(() => {
         async function loadWeb3() {
@@ -229,14 +230,14 @@ export default function App() {
                 const distributorID = receipt.events.distributordata.returnValues.distributorID;
                 const distributorName = receipt.events.distributordata.returnValues.distributorName;
                 const cropType = receipt.events.distributordata.returnValues.cropType;
-                const quantity = receipt.events.manufacturerdata.returnValues.quantity;
+                const quantity = receipt.events.distributordata.returnValues.quantity;
                 const detailsObject = {
                     distributorID,
                     distributorName,
                     cropType,
                     quantity,
                 };
-                console.log(detailsObject);
+                console.log('detailsObject', detailsObject);
                 setdistributerDataState({
                     ...distributerData,
                     [batchNo]: detailsObject,
@@ -296,22 +297,27 @@ export default function App() {
                     details,
                     getNextAction,
                     nextAction,
-                    setFarmerData,
                     setSupplyChainDetails,
                     getSupplyChainDetails,
                     batchNo,
                     setbatchNo,
-                    setManufacturerData,
-                    getFarmerData,
-                    farmerData,
+
                     manufacturerData,
-                    retailerData,
-                    distributerData,
                     getManufacturerData,
-                    getRetailerData,
-                    getDistributorData,
-                    setRetailerData,
+                    setManufacturerData,
+
+                    farmerData,
+                    setFarmerData,
+                    getFarmerData,
+
+                    distributerData,
                     setDistributorData,
+                    getDistributorData,
+
+                    retailerData,
+                    getRetailerData,
+                    setRetailerData,
+
                     modalIsOpen,
                     openModal,
                     closeModal,

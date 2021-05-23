@@ -81,7 +81,6 @@ export default function SupplychainDetail() {
                         <Button
                             size="sm"
                             onClick={() => {
-                                console.log('sdsd');
                                 getManufacturerData(batchNo);
                             }}
                         >
@@ -158,7 +157,6 @@ export default function SupplychainDetail() {
                         <Button
                             size="sm"
                             onClick={() => {
-                                console.log('sdsd');
                                 getRetailerData(batchNo);
                             }}
                         >

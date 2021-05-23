@@ -27,16 +27,17 @@ export default function Main() {
                         <Container>
                             <Col sm="6" className="justify-content-center align-item-center my-auto">
                                 <h2 className="text-dark" style={{ fontSize: '30px' }}>
-                                    Your Receipt : 0xdfghj5678dfgh567{' '}
+                                    Your Receipt : {batchNo}
                                 </h2>
                             </Col>
                             <hr style={{ height: '2px', border: 'none', backgroundColor: '#000' }} />
-                            <Row className="mt-3">
+                            <Row className="mt-3" style={{ textAlign: 'left' }}>
                                 <Col sm="6" className="justify-content-center align-item-center my-auto">
                                     <h2 className="text-dark" style={{ fontSize: '20px' }}>
                                         Farmer Details
                                     </h2>
                                 </Col>
+                                <img src={verifiedStamp} style={{ height: '120px', float: 'right' }} />
                                 <Col sm="6" className="border-left border-dark" style={{ fontSize: '20px' }}>
                                     <p>
                                         <span className="badge badge-light ">
@@ -66,12 +67,13 @@ export default function Main() {
                                 </Col>
                             </Row>
                             <hr style={{ height: '2px', border: 'none', backgroundColor: '#000' }} />
-                            <Row className="mt-3">
+                            <Row className="mt-3" style={{ textAlign: 'left' }}>
                                 <Col sm="6" className="justify-content-center align-item-center my-auto">
                                     <h2 className="text-dark" style={{ fontSize: '20px' }}>
                                         Manufacturer Details
                                     </h2>
                                 </Col>
+                                <img src={verifiedStamp} style={{ height: '120px', float: 'right' }} />
                                 <Col sm="6" className="border-left border-dark" style={{ fontSize: '20px' }}>
                                     <p>
                                         <span className="badge badge-light ">
@@ -101,12 +103,13 @@ export default function Main() {
                                 </Col>
                             </Row>
                             <hr style={{ height: '2px', border: 'none', backgroundColor: '#000' }} />
-                            <Row className="mt-3">
+                            <Row className="mt-3" style={{ textAlign: 'left' }}>
                                 <Col sm="6" className="justify-content-center align-item-center my-auto">
                                     <h2 className="text-dark" style={{ fontSize: '20px' }}>
                                         Distributer Details
                                     </h2>
                                 </Col>
+                                <img src={verifiedStamp} style={{ height: '120px', float: 'right' }} />
                                 <Col sm="6" className="border-right border-dark" style={{ fontSize: '20px' }}>
                                     <p>
                                         <span className="badge badge-light ">
@@ -131,12 +134,13 @@ export default function Main() {
                                 </Col>
                             </Row>
                             <hr style={{ height: '2px', border: 'none', backgroundColor: '#000' }} />
-                            <Row className="mt-3">
+                            <Row className="mt-3" style={{ textAlign: 'left' }}>
                                 <Col sm="6" className="justify-content-center align-item-center my-auto">
                                     <h2 className="text-dark" style={{ fontSize: '20px' }}>
                                         Retailer Details
                                     </h2>
                                 </Col>
+                                <img src={verifiedStamp} style={{ height: '120px', float: 'right' }} />
                                 <Col sm="6" className="border-left border-dark" style={{ fontSize: '20px' }}>
                                     <p>
                                         <span className="badge badge-light ">
@@ -163,7 +167,6 @@ export default function Main() {
                                             Quantity : {supplyChain.retailerData.quantity} kgs
                                         </span>
                                     </p>
-                                    <img src={verifiedStamp} style={{ height: '200px' }} />
                                 </Col>
                             </Row>
                         </Container>
