@@ -11,6 +11,9 @@ function App() {
                 <Route path="/:batchNo" exact>
                     <Main />
                 </Route>
+                <Route path="/" exact>
+                    Not valid URL
+                </Route>
             </Switch>
         </Router>
     );
