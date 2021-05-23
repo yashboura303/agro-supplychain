@@ -283,6 +283,16 @@ export default function App() {
             });
     };
 
+    const authorizeCaller = (address) =>{
+        setloading(true);
+        agrowChainStorage.methods
+            .authorizeCaller(address)
+            .send({ from : account})
+            .on('receipt', receipt =>{
+                console.log(receipt);
+            })
+    }
+
     const Loader = () => {
         return (
             <>
