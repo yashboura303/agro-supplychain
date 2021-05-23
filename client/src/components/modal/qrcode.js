@@ -12,11 +12,11 @@ export default function Qrcode() {
         >
             {/* <button onClick={closeModal}>close</button> */}
             <img
-                src={`https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=http://localhost:3001/${batchNo}`}
+                src={`https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=https://agro-chain-receipt.netlify.app/${batchNo}`}
                 alt=""
             />
             <p>
-                Scan the code or go to <a href={`http://localhost:3001/${batchNo}`}>this link</a>
+                Scan the code or go to <a href={`https://agro-chain-receipt.netlify.app/${batchNo}`}>this link</a>
             </p>
         </Modal>
     );

@@ -11,8 +11,9 @@ const SupplyChain = () => {
             <>
                 <h4 className="text-center my-4 font-weight-bold">Supply Chain:- {batchNo}</h4>
                 <h4 className="my-4 text-center">
-                    This supply chain is done, <Link to={`http://localhost:3001/${batchNo}`}>click here</Link> to view
-                    its detail. Or scan the QR code below.
+                    This supply chain is done,{' '}
+                    <Link to={`https://agro-chain-receipt.netlify.app/${batchNo}`}>click here</Link> to view its detail.
+                    Or scan the QR code below.
                 </h4>
                 <Container className="text-center p-5">
                     <img src={`https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=${batchNo}`} alt="" />
