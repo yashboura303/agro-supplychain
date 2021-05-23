@@ -83,7 +83,7 @@ export default function App() {
                 const batchNo = receipt.events.sBasicDetails.returnValues.batchNo;
                 setbatchNo(batchNo);
                 axios
-                    .post(`http://localhost:5000/register`, { batchNo })
+                    .post(`https://agrochain-server.herokuapp.com/register`, { batchNo })
                     .then(res => {
                         console.log('Saved to DB', res.data);
                     })

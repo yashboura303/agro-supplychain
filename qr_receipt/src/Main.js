@@ -8,7 +8,7 @@ export default function Main() {
 
     const { batchNo } = useParams();
     useEffect(() => {
-        axios.get(`http://localhost:5000`).then(res => {
+        axios.get(`https://agrochain-server.herokuapp.com`).then(res => {
             const data = res.data;
             let obj = {};
             for (let i in data.result) {

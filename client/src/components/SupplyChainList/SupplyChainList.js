@@ -11,7 +11,7 @@ export default function SupplyChainList(props) {
 
     const [supplyChains, setSupplyChain] = useState([]);
     useEffect(() => {
-        axios.get(`http://localhost:5000`).then(res => {
+        axios.get(`https://agrochain-server.herokuapp.com`).then(res => {
             const data = res.data;
             setSupplyChain(data.result);
         });
