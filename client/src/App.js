@@ -132,10 +132,10 @@ export default function App() {
             });
     };
 
-    const setFarmerData = (batchNo, farmerID, farmerName, farmLocation, cropType, quantity) => {
+    const setFarmerData = (batchNo, farmerID, farmerName, farmLocation, cropType, quantity, date) => {
         setloading(true);
         agrowChainStorage.methods
-            .setFarmerData(batchNo, farmerID, farmerName, farmLocation, cropType, quantity)
+            .setFarmerData(batchNo, farmerID, farmerName, farmLocation, cropType, quantity, date)
             .send({ from: account })
             .on('receipt', receipt => {
                 setloading(false);
@@ -156,12 +156,14 @@ export default function App() {
                 const farmLocation = receipt.events.farmerdata.returnValues.farmLocation;
                 const cropType = receipt.events.farmerdata.returnValues.cropType;
                 const quantity = receipt.events.farmerdata.returnValues.quantity;
+                const date = receipt.events.farmerdata.returnValues.date;
                 const detailsObject = {
                     farmerID,
                     farmerName,
                     farmLocation,
                     cropType,
                     quantity,
+                    date,
                 };
                 setfarmerDataState({
                     ...farmerData,
@@ -170,10 +172,18 @@ export default function App() {
             });
     };
 
-    const setManufacturerData = (batchNo, manufacturerID, manufacturerName, factoryLocation, cropType, quantity) => {
+    const setManufacturerData = (
+        batchNo,
+        manufacturerID,
+        manufacturerName,
+        factoryLocation,
+        cropType,
+        quantity,
+        date
+    ) => {
         setloading(true);
         agrowChainStorage.methods
-            .setManufacturerData(batchNo, manufacturerID, manufacturerName, factoryLocation, cropType, quantity)
+            .setManufacturerData(batchNo, manufacturerID, manufacturerName, factoryLocation, cropType, quantity, date)
             .send({ from: account })
             .on('receipt', receipt => {
                 setloading(false);
@@ -194,12 +204,14 @@ export default function App() {
                 const factoryLocation = receipt.events.manufacturerdata.returnValues.factoryLocation;
                 const cropType = receipt.events.manufacturerdata.returnValues.cropType;
                 const quantity = receipt.events.manufacturerdata.returnValues.quantity;
+                const date = receipt.events.manufacturerdata.returnValues.date;
                 const detailsObject = {
                     manufacturerID,
                     manufacturerName,
                     factoryLocation,
                     cropType,
                     quantity,
+                    date,
                 };
                 setmanufacturerDataState({
                     ...manufacturerData,
@@ -208,10 +220,10 @@ export default function App() {
             });
     };
 
-    const setDistributorData = (batchNo, distributorID, distributorName, cropType, quantity) => {
+    const setDistributorData = (batchNo, distributorID, distributorName, cropType, quantity, date) => {
         setloading(true);
         agrowChainStorage.methods
-            .setDistributorData(batchNo, distributorID, distributorName, cropType, quantity)
+            .setDistributorData(batchNo, distributorID, distributorName, cropType, quantity, date)
             .send({ from: account })
             .on('receipt', receipt => {
                 setloading(false);
@@ -231,11 +243,13 @@ export default function App() {
                 const distributorName = receipt.events.distributordata.returnValues.distributorName;
                 const cropType = receipt.events.distributordata.returnValues.cropType;
                 const quantity = receipt.events.distributordata.returnValues.quantity;
+                const date = receipt.events.distributordata.returnValues.date;
                 const detailsObject = {
                     distributorID,
                     distributorName,
                     cropType,
                     quantity,
+                    date,
                 };
                 console.log('detailsObject', detailsObject);
                 setdistributerDataState({
@@ -245,10 +259,10 @@ export default function App() {
             });
     };
 
-    const setRetailerData = (batchNo, retailerID, retailerName, storeLocation, cropType, quantity) => {
+    const setRetailerData = (batchNo, retailerID, retailerName, storeLocation, cropType, quantity, date) => {
         setloading(true);
         agrowChainStorage.methods
-            .setRetailerData(batchNo, retailerID, retailerName, storeLocation, cropType, quantity)
+            .setRetailerData(batchNo, retailerID, retailerName, storeLocation, cropType, quantity, date)
             .send({ from: account })
             .on('receipt', receipt => {
                 setloading(false);
@@ -268,12 +282,14 @@ export default function App() {
                 const storeLocation = receipt.events.retailerdata.returnValues.storeLocation;
                 const cropType = receipt.events.retailerdata.returnValues.cropType;
                 const quantity = receipt.events.retailerdata.returnValues.quantity;
+                const date = receipt.events.retailerdata.returnValues.date;
                 const detailsObject = {
                     retailerID,
                     retailerName,
                     storeLocation,
                     cropType,
                     quantity,
+                    date,
                 };
                 setretailerDataState({
                     ...retailerData,
@@ -283,15 +299,15 @@ export default function App() {
             });
     };
 
-    const authorizeCaller = (address) =>{
+    const authorizeCaller = address => {
         setloading(true);
         agrowChainStorage.methods
             .authorizeCaller(address)
-            .send({ from : account})
-            .on('receipt', receipt =>{
+            .send({ from: account })
+            .on('receipt', receipt => {
                 console.log(receipt);
-            })
-    }
+            });
+    };
 
     const Loader = () => {
         return (

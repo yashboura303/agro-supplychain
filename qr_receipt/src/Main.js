@@ -64,6 +64,9 @@ export default function Main() {
                                             Quantity : {supplyChain.farmerData.quantity} kgs
                                         </span>
                                     </p>
+                                    <p>
+                                        <span className="badge badge-light ">Date : {supplyChain.farmerData.date}</span>
+                                    </p>
                                 </Col>
                             </Row>
                             <hr style={{ height: '2px', border: 'none', backgroundColor: '#000' }} />
@@ -100,6 +103,11 @@ export default function Main() {
                                             Quantity : {supplyChain.manufacturerData.quantity} kgs
                                         </span>
                                     </p>
+                                    <p>
+                                        <span className="badge badge-light ">
+                                            Date : {supplyChain.manufacturerData.date}
+                                        </span>
+                                    </p>
                                 </Col>
                             </Row>
                             <hr style={{ height: '2px', border: 'none', backgroundColor: '#000' }} />
@@ -129,6 +137,11 @@ export default function Main() {
                                     <p>
                                         <span className="badge badge-light ">
                                             Quantity : {supplyChain.distributerData.quantity} kgs
+                                        </span>
+                                    </p>
+                                    <p>
+                                        <span className="badge badge-light ">
+                                            Date : {supplyChain.distributerData.date}
                                         </span>
                                     </p>
                                 </Col>
@@ -165,6 +178,11 @@ export default function Main() {
                                     <p>
                                         <span className="badge badge-light ">
                                             Quantity : {supplyChain.retailerData.quantity} kgs
+                                        </span>
+                                    </p>
+                                    <p>
+                                        <span className="badge badge-light ">
+                                            Date : {supplyChain.retailerData.date}
                                         </span>
                                     </p>
                                 </Col>

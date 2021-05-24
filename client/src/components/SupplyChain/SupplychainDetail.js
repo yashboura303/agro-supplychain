@@ -55,6 +55,10 @@ export default function SupplychainDetail() {
                         <span className="badge badge-light ">Quantity </span>
                         {farmerData[batchNo] && <span> - {farmerData[batchNo].quantity} </span>}
                     </p>
+                    <p>
+                        <span className="badge badge-light ">Date </span>
+                        {farmerData[batchNo] && <span> - {farmerData[batchNo].date} </span>}
+                    </p>
                 </Col>
                 <Col sm="6" className="justify-content-center align-item-center my-auto">
                     <h2 className="text-dark">Farmer Details</h2>
@@ -111,6 +115,10 @@ export default function SupplychainDetail() {
                         <span className="badge badge-light ">Quantity </span>
                         {manufacturerData[batchNo] && <span> - {manufacturerData[batchNo].quantity} </span>}
                     </p>
+                    <p>
+                        <span className="badge badge-light ">Date </span>
+                        {manufacturerData[batchNo] && <span> - {manufacturerData[batchNo].date} </span>}
+                    </p>
                 </Col>
             </Row>
             <hr style={{ height: '3px', border: 'none', backgroundColor: '#000' }} />
@@ -131,6 +139,10 @@ export default function SupplychainDetail() {
                     <p>
                         <span className="badge badge-light ">Quantity </span>
                         {distributerData[batchNo] && <span> - {distributerData[batchNo].quantity} </span>}
+                    </p>
+                    <p>
+                        <span className="badge badge-light ">Date </span>
+                        {distributerData[batchNo] && <span> - {distributerData[batchNo].date} </span>}
                     </p>
                 </Col>
                 <Col sm="6" className="justify-content-center align-item-center my-auto">
@@ -186,6 +198,10 @@ export default function SupplychainDetail() {
                     <p>
                         <span className="badge badge-light ">Quantity </span>
                         {retailerData[batchNo] && <span> - {retailerData[batchNo].quantity} </span>}
+                    </p>
+                    <p>
+                        <span className="badge badge-light ">Date </span>
+                        {retailerData[batchNo] && <span> - {retailerData[batchNo].date} </span>}
                     </p>
                 </Col>
             </Row>
