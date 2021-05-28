@@ -59,7 +59,7 @@ export default function RegisterManufac(props) {
                         <Col>
                             <Form.Control
                                 type="text"
-                                placeholder="Manufacturer Name"
+                                placeholder="Manufacturer ID"
                                 value={formData.manufacturerID}
                                 name="manufacturerID"
                                 onChange={handlechange}
@@ -91,7 +91,7 @@ export default function RegisterManufac(props) {
                         <Col>
                             <Form.Control
                                 type="text"
-                                placeholder="Farmer Name"
+                                placeholder="Farmer Location"
                                 value={formData.factoryLocation}
                                 name="factoryLocation"
                                 onChange={handlechange}
@@ -107,7 +107,7 @@ export default function RegisterManufac(props) {
                         <Col>
                             <Form.Control
                                 type="text"
-                                placeholder="Manufacturer Name"
+                                placeholder="Crop Type"
                                 value={formData.cropType}
                                 name="cropType"
                                 onChange={handlechange}
@@ -123,7 +123,7 @@ export default function RegisterManufac(props) {
                         <Col>
                             <Form.Control
                                 type="text"
-                                placeholder="Distributer Name"
+                                placeholder="Quantity"
                                 value={formData.quantity}
                                 name="quantity"
                                 onChange={handlechange}

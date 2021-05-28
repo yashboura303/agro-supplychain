@@ -91,14 +91,15 @@ export default function Main() {
                         <Col sm={6} className="" style={{ fontSize: '20px' }}>
                             <p>
                                 <span className="badge badge-light ">
-                                    Manufacturer ID : {supplyChain.manufacturerData.manufacturerName}{' '}
+                                    Manufacturer Name : {supplyChain.manufacturerData.manufacturerID}
                                 </span>
                             </p>
                             <p>
                                 <span className="badge badge-light ">
-                                    Manufacturer Name : {supplyChain.manufacturerData.manufacturerID}
+                                    Manufacturer ID : {supplyChain.manufacturerData.manufacturerName}{' '}
                                 </span>
                             </p>
+
                             <p>
                                 <span className="badge badge-light ">
                                     Factory Location : {supplyChain.manufacturerData.factoryLocation}
